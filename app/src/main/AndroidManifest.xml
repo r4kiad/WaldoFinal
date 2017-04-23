@@ -79,10 +79,6 @@
             android:label="Add a Job"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Progress"
-            android:label="Job In Progress"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".DeveloperInfo"
             android:label="About Us" />
         <activity

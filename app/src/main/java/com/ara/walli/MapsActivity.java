@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,6 +36,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String provider;
     final int MY_PERMISSION_REQUEST_CODE = 7171;
     double lat, lng;
+    String newString, newString2, newString3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +62,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Location myLocation = locationManager.getLastKnownLocation(provider);
         lat = myLocation.getLatitude();
         lng = myLocation.getLongitude();
+        Toast.makeText(this, "Job has been accepted", Toast.LENGTH_LONG).show();
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras == null) {
+                newString = null;
+                newString2 = null;
+                newString3 = null;
+            } else {
+                newString = extras.getString("Address");
+                newString2 = extras.getString("User");
+                newString3 = extras.getString("TargetLocation");
+            }
+        } else {
+            newString = (String) savedInstanceState.getSerializable("Address");
+            newString2 = (String) savedInstanceState.getSerializable("User");
+            newString3 = (String) savedInstanceState.getSerializable("TargetLocation");
+        }
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

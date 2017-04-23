@@ -16,34 +16,38 @@ import android.widget.TextView;
  */
 
 public class JobDetail extends AppCompatActivity {
-    TextView d_name,d_jname,d_description,d_pay,d_location;
+    TextView d_name, d_jname, d_description, d_pay, d_location;
     Button abtn;
     double dpay = 0.0;
-    String newString;
+    String newString,newString2,newString3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.job_detail_layout);
         d_name = (TextView) findViewById(R.id.d_name);
-        d_jname= (TextView) findViewById(R.id.d_jname);
-        d_description= (TextView) findViewById(R.id.d_description);
-        d_pay= (TextView) findViewById(R.id.d_jpay);
-        d_location= (TextView) findViewById(R.id.d_jlocation);
+        d_jname = (TextView) findViewById(R.id.d_jname);
+        d_description = (TextView) findViewById(R.id.d_description);
+        d_pay = (TextView) findViewById(R.id.d_jpay);
+        d_location = (TextView) findViewById(R.id.d_jlocation);
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
                 newString = null;
+                newString2 = null;
             } else {
-                newString = extras.getString("User");
+                newString = extras.getString("Address");
+                newString2 = extras.getString("User");
             }
         } else {
-            newString = (String) savedInstanceState.getSerializable("User");
+            newString = (String) savedInstanceState.getSerializable("Address");
+            newString2 = (String) savedInstanceState.getSerializable("User");
         }
-        d_name.setText("Author : "+getIntent().getStringExtra("d_name"));
-        d_jname.setText("Title : "+getIntent().getStringExtra("d_jname"));
-        d_description.setText("Description : "+getIntent().getStringExtra("d_description"));
-        d_pay.setText("Payment : "+getIntent().getDoubleExtra("d_jpay",dpay)+"$");
-        d_location.setText("Location : "+getIntent().getStringExtra("d_jlocation"));
+        d_name.setText("Author : " + getIntent().getStringExtra("d_name"));
+        d_jname.setText("Title : " + getIntent().getStringExtra("d_jname"));
+        d_description.setText("Description : " + getIntent().getStringExtra("d_description"));
+        d_pay.setText("Payment : " + getIntent().getDoubleExtra("d_jpay", dpay) + "$");
+        d_location.setText("Location : " + getIntent().getStringExtra("d_jlocation"));
         abtn = (Button) findViewById(R.id.abtn);
         abtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,9 +59,12 @@ public class JobDetail extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-                                startActivity(new Intent(JobDetail.this,Progress.class));
-
+                                Intent intent = new Intent(JobDetail.this, MapsActivity.class);
+                                newString3= getIntent().getStringExtra("d_jlocation");
+                                intent.putExtra("Address",newString);
+                                intent.putExtra("User",newString2);
+                                intent.putExtra("TargetLocation",newString3);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -68,10 +75,9 @@ public class JobDetail extends AppCompatActivity {
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
-
             }
         });
 
     }
 
-    }
+}
