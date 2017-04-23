@@ -36,20 +36,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             return recyclerViewHolder;
         }
         return null;
-
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-
         if (holder.viewType == TYPE_LIST) {
             Job job = arrayList.get(position - 1);
             holder.JName.setText(job.getJname());
             holder.Name.setText(job.getName());
-
         }
-
-
     }
 
     @Override

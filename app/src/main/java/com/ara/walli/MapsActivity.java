@@ -72,16 +72,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
-                newString2 = null;
                 newString3 = null;
                 newString4 = null;
             } else {
-                newString2 = extras.getString("User");
                 newString3 = extras.getString("TargetLocation");
                 newString4 = extras.getString("UserName");
             }
         } else {
-            newString2 = (String) savedInstanceState.getSerializable("User");
             newString3 = (String) savedInstanceState.getSerializable("TargetLocation");
             newString4 = (String) savedInstanceState.getSerializable("UserName");
         }
@@ -93,7 +90,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         LatLng CurrentLocation = new LatLng(lat, lng);
 //        Circle circle = mMap.addCircle(new CircleOptions()
 //                .center(new LatLng(lat, lng))
@@ -102,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                .strokeWidth(2)
 //                .radius(100));
         new GetAddress().execute(String.format("%.4f,%.4f", lat, lng));
-        mMap.addMarker(new MarkerOptions().position(CurrentLocation).title(newString));
+        mMap.addMarker(new MarkerOptions().position(CurrentLocation).title("You"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CurrentLocation, 14.0f));
     }
 
