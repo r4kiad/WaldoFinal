@@ -52,6 +52,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         {
             Job job = arrayList.get(position-1);
             holder.JName.setText(job.getJname());
+            holder.Name.setText(job.getName());
+
         }
 
 
@@ -65,7 +67,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     }
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        TextView Name,JName,Pay,Location;
+        TextView Name,JName;
         int viewType;
         ArrayList<Job> arrayList = new ArrayList<>();
         Context ctx;
@@ -78,6 +80,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
                 this.ctx = ctx;
                 view.setOnClickListener(this);
                 JName = (TextView) view.findViewById(R.id.jname);
+                Name = (TextView) view.findViewById(R.id.name);
                 this.viewType = TYPE_LIST;
             }
             else if(viewType==TYPE_HEAD)
