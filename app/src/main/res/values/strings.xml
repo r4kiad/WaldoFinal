@@ -91,6 +91,5 @@ and that your device has an internet connection.
     <string name="title_activity_maps">Map</string>
 
     <string name="title_activity_splash">Splash</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_content">Waldo</string>
 </resources>
