@@ -44,22 +44,39 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
-
-        </activity>
+            android:label="@string/title_activity_maps" />
         <activity
-        android:name=".Dashboard"
-        android:label="Waldo"
-        android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:name=".Dashboard"
+            android:label="Waldo"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CreateJob"
             android:label="Add a Job"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".JobDetail"
-            android:label="Job Detail"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Progress"
+            android:label="Job In Progress"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DeveloperInfo"
+            android:label="About Us" />
+        <activity
+            android:name=".Goal"
+            android:label="Goals" />
+        <activity
+            android:name=".JobDetail"
+            android:label="Job Detail" />
+        <activity
+            android:name=".Report"
+            android:label="Send a report" />
+        <activity
+            android:name=".Donation"
+            android:label="Paypal Donation">
+            <meta-data
+                android:name="com.paypal.android"
+                android:value="AWPpuhsmgn3Lae-m5-wwykFF-mVkzSwrCHSuwHnx17NUJT4X-iGhWtXUjJlMrQLyJzQcfqkwZFMgwb52" />
+        </activity>
+        <activity android:name=".ConfirmationActivity"></activity>
     </application>
 
 </manifest>

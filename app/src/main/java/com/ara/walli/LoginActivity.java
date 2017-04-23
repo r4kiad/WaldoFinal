@@ -19,7 +19,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.Dash;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements
 
     private GoogleApiClient wGoogleApiClient;
     private TextView wStatusTextView;
+    private TextView wDateTextView;
     private ProgressDialog wProgressDialog;
 
     @Override
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity implements
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         wStatusTextView = (TextView) findViewById(R.id.status);
+        wDateTextView = (TextView) findViewById(R.id.loginDate);
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
@@ -97,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             wStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            wDateTextView.setText(DateFormat.getDateTimeInstance().format(new Date()));
             updateUI(true);
         } else {
             updateUI(false);
@@ -167,6 +171,10 @@ public class LoginActivity extends AppCompatActivity implements
 
     private void launchActivity() {
         Intent intent = new Intent(this, Dashboard.class);
+        String tempUser;
+        tempUser=(String)wStatusTextView.getText();
+        tempUser=tempUser.replace("Signed in as: ","");
+        intent.putExtra("User",tempUser);
         startActivity(intent);
     }
 }

@@ -96,16 +96,20 @@ public class Dashboard extends AppCompatActivity
         if (id == R.id.nav_Map) {
             startActivity(new Intent(Dashboard.this,LocationActivity.class));
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_account) {
+            //startActivity(new Intent(Dashboard.this,LocationActivity.class));
 
+        } else if (id == R.id.nav_report) {
+            startActivity(new Intent(Dashboard.this,Report.class));
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_donate) {
+            startActivity(new Intent(Dashboard.this,Donation.class));
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_info) {
+            startActivity(new Intent(Dashboard.this,DeveloperInfo.class));
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_goals) {
+            startActivity(new Intent(Dashboard.this,Goal.class));
 
         }
 

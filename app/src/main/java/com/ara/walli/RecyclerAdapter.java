@@ -51,10 +51,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         if(holder.viewType==TYPE_LIST)
         {
             Job job = arrayList.get(position-1);
-            // holder.Name.setText(job.getName());
             holder.JName.setText(job.getJname());
-            // holder.Pay.setText(String.valueOf(job.getPay()));
-            // holder.Location.setText(job.getLocation());
         }
 
 
@@ -80,10 +77,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
                 this.arrayList = arrayList;
                 this.ctx = ctx;
                 view.setOnClickListener(this);
-                //Name =(TextView) view.findViewById(R.id.name);
                 JName = (TextView) view.findViewById(R.id.jname);
-                // Pay =(TextView) view.findViewById(R.id.pay);
-                //Location =(TextView) view.findViewById(R.id.location);
                 this.viewType = TYPE_LIST;
             }
             else if(viewType==TYPE_HEAD)
@@ -98,6 +92,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         public void onClick(View v) {
             int position = getAdapterPosition()-1;
             Job job = this.arrayList.get(position);
+
             Intent intent = new Intent(this.ctx,JobDetail.class);
             intent.putExtra("d_name",job.getName());
             intent.putExtra("d_jname",job.getJname());
@@ -105,11 +100,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             intent.putExtra("d_jpay",job.getPay());
             intent.putExtra("d_jlocation",job.getLocation());
             this.ctx.startActivity(intent);
-
-
-
-
-
         }
     }
     @Override
@@ -120,3 +110,4 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     }
 }
+
