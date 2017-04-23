@@ -41,8 +41,8 @@ public class JobDetail extends AppCompatActivity {
         }
         d_name.setText("Author : "+getIntent().getStringExtra("d_name"));
         d_jname.setText("Title : "+getIntent().getStringExtra("d_jname"));
-        d_description.setText("description : "+getIntent().getStringExtra("d_description"));
-        d_pay.setText("payment : "+getIntent().getDoubleExtra("d_jpay",dpay)+"$");
+        d_description.setText("Description : "+getIntent().getStringExtra("d_description"));
+        d_pay.setText("Payment : "+getIntent().getDoubleExtra("d_jpay",dpay)+"$");
         d_location.setText("Location : "+getIntent().getStringExtra("d_jlocation"));
         abtn = (Button) findViewById(R.id.abtn);
         abtn.setOnClickListener(new View.OnClickListener() {
