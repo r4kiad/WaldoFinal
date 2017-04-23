@@ -1,6 +1,6 @@
 package com.ara.walli;
 
-import android.*;
+
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;

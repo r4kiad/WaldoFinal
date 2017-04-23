@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,6 +68,7 @@ public class DatabaseDisplay extends AsyncTask<Void,Job,Void> {
             String line;
             while((line = bufferedReader.readLine()) != null)
             {
+
                 stringBuilder.append(line + "\n");
             }
             httpURLConnection.disconnect();
