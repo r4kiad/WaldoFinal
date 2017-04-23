@@ -83,10 +83,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             newString2 = (String) savedInstanceState.getSerializable("User");
             newString3 = (String) savedInstanceState.getSerializable("TargetLocation");
+            newString4 = (String) savedInstanceState.getSerializable("UserName");
         }
-        String url2 = "http://maps.google.com/maps?daddr=" + newString3;
-        Intent intent2 = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url2));
-        startActivity(intent2);
+//        String url2 = "http://maps.google.com/maps?daddr=" + newString3;
+//        Intent intent2 = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url2));
+//        startActivity(intent2);
     }
 
     @Override
