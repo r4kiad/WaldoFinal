@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ara.walli.DatabaseDisplay;
 import com.google.android.gms.maps.model.Dash;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.Dash;
 
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    String newString, newString2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +31,27 @@ public class Dashboard extends AppCompatActivity
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras == null) {
+                newString = null;
+                newString2 = null;
+            } else {
+                newString = extras.getString("Address");
+                newString2 = extras.getString("User");
+            }
+        } else {
+            newString = (String) savedInstanceState.getSerializable("Address");
+            newString2 = (String) savedInstanceState.getSerializable("User");
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Dashboard.this, CreateJob.class));
+                Intent intent = new Intent(Dashboard.this, CreateJob.class);
+                intent.putExtra("Address", newString);
+                intent.putExtra("User", newString2);
+                startActivity(intent);
             }
         });
 
@@ -49,7 +66,6 @@ public class Dashboard extends AppCompatActivity
 
         DatabaseDisplay databaseDisplay = new DatabaseDisplay(Dashboard.this);
         databaseDisplay.execute();
-
     }
 
     @Override
@@ -94,22 +110,17 @@ public class Dashboard extends AppCompatActivity
 
 
         if (id == R.id.nav_Map) {
-            startActivity(new Intent(Dashboard.this,LocationActivity.class));
+            startActivity(new Intent(Dashboard.this, LocationActivity.class));
+        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_account) {
-            //startActivity(new Intent(Dashboard.this,LocationActivity.class));
 
-        } else if (id == R.id.nav_report) {
-            startActivity(new Intent(Dashboard.this,Report.class));
+        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_donate) {
-            startActivity(new Intent(Dashboard.this,Donation.class));
+        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_info) {
-            startActivity(new Intent(Dashboard.this,DeveloperInfo.class));
+        } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_goals) {
-            startActivity(new Intent(Dashboard.this,Goal.class));
+        } else if (id == R.id.nav_send) {
 
         }
 
