@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity implements
     private TextView wStatusTextView;
     private TextView wDateTextView;
     private ProgressDialog wProgressDialog;
+    private String newString;
+    private String newString2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,16 @@ public class LoginActivity extends AppCompatActivity implements
 
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras == null) {
+                newString = null;
+            } else {
+                newString = extras.getString("Address");
+            }
+        } else {
+            newString = (String) savedInstanceState.getSerializable("Address");
+        }
     }
 
     @Override
@@ -171,10 +183,10 @@ public class LoginActivity extends AppCompatActivity implements
 
     private void launchActivity() {
         Intent intent = new Intent(this, Dashboard.class);
-        String tempUser;
-        tempUser=(String)wStatusTextView.getText();
-        tempUser=tempUser.replace("Signed in as: ","");
-        intent.putExtra("User",tempUser);
+        newString2=(String)wStatusTextView.getText();
+        newString2=newString2.replace("Signed in as: ","");
+        intent.putExtra("User",newString2);
+        intent.putExtra("Address", newString);
         startActivity(intent);
     }
 }

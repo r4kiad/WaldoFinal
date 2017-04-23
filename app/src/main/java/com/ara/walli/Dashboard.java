@@ -16,10 +16,6 @@ import android.view.View;
 import com.ara.walli.DatabaseDisplay;
 import com.google.android.gms.maps.model.Dash;
 
-/**
- * Created by r4kia on 4/20/2017.
- */
-
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String newString, newString2;
@@ -109,7 +105,10 @@ public class Dashboard extends AppCompatActivity
 
 
         if (id == R.id.nav_Map) {
-            startActivity(new Intent(Dashboard.this,LocationActivity.class));
+            Intent intent = new Intent(Dashboard.this,LocationActivity.class);
+            intent.putExtra("Address", newString);
+            intent.putExtra("User", newString2);
+            startActivity(intent);
 
         } else if (id == R.id.nav_account) {
             //startActivity(new Intent(Dashboard.this,LocationActivity.class));
