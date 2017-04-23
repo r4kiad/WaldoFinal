@@ -22,19 +22,34 @@ import com.google.android.gms.maps.model.Dash;
 
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    String newString, newString2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras == null) {
+                newString = null;
+                newString2 = null;
+            } else {
+                newString = extras.getString("Address");
+                newString2 = extras.getString("User");
+            }
+        } else {
+            newString = (String) savedInstanceState.getSerializable("Address");
+            newString2 = (String) savedInstanceState.getSerializable("User");
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Dashboard.this, CreateJob.class));
+                Intent intent = new Intent(Dashboard.this, CreateJob.class);
+                intent.putExtra("Address", newString);
+                intent.putExtra("User", newString2);
+                startActivity(intent);
             }
         });
 
