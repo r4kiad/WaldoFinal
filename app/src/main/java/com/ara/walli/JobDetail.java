@@ -19,7 +19,7 @@ public class JobDetail extends AppCompatActivity {
     TextView d_name, d_jname, d_description, d_pay, d_location;
     Button abtn;
     double dpay = 0.0;
-    String newString,newString2,newString3;
+    String newString, newString2, newString3, newString4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +60,12 @@ public class JobDetail extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(JobDetail.this, MapsActivity.class);
-                                newString3= getIntent().getStringExtra("d_jlocation");
-                                intent.putExtra("Address",newString);
-                                intent.putExtra("User",newString2);
-                                intent.putExtra("TargetLocation",newString3);
+                                newString3 = getIntent().getStringExtra("d_jlocation");
+                                newString4 = getIntent().getStringExtra("d_name");
+                                intent.putExtra("Address", newString);
+                                intent.putExtra("User", newString2);
+                                intent.putExtra("TargetLocation", newString3);
+                                intent.putExtra("UserName", newString4);
                                 startActivity(intent);
                             }
                         })

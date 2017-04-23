@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -22,12 +23,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.graphics.Color.argb;
+import static android.graphics.Color.rgb;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -36,7 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String provider;
     final int MY_PERMISSION_REQUEST_CODE = 7171;
     double lat, lng;
-    String newString, newString2, newString3;
+    String newString,newString2, newString3, newString4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,28 +72,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
-                newString = null;
                 newString2 = null;
                 newString3 = null;
+                newString4 = null;
             } else {
-                newString = extras.getString("Address");
                 newString2 = extras.getString("User");
                 newString3 = extras.getString("TargetLocation");
+                newString4 = extras.getString("UserName");
             }
         } else {
-            newString = (String) savedInstanceState.getSerializable("Address");
             newString2 = (String) savedInstanceState.getSerializable("User");
             newString3 = (String) savedInstanceState.getSerializable("TargetLocation");
         }
+        String url2 = "http://maps.google.com/maps?daddr=" + newString3;
+        Intent intent2 = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url2));
+        startActivity(intent2);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng sydney = new LatLng(lat, lng);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng CurrentLocation = new LatLng(lat, lng);
+//        Circle circle = mMap.addCircle(new CircleOptions()
+//                .center(new LatLng(lat, lng))
+//                .fillColor(argb(20, 20, 180, 80))
+//                .strokeColor(rgb(10, 10, 200))
+//                .strokeWidth(2)
+//                .radius(100));
+        new GetAddress().execute(String.format("%.4f,%.4f", lat, lng));
+        mMap.addMarker(new MarkerOptions().position(CurrentLocation).title(newString));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CurrentLocation, 14.0f));
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -141,5 +156,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             return null;
         }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+
+                newString = ((JSONArray) jsonObject.get("results")).getJSONObject(0).get("formatted_address").toString();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if (dialog.isShowing())
+                dialog.dismiss();
+        }
     }
+
 }
