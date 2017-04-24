@@ -59,7 +59,7 @@ public class JobDetail extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(JobDetail.this, MapsActivity.class);
+                                Intent intent = new Intent(JobDetail.this, MapIntent.class);
                                 newString3 = getIntent().getStringExtra("d_jlocation");
                                 newString4 = getIntent().getStringExtra("d_name");
                                 intent.putExtra("Address", newString);

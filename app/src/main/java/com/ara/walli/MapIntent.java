@@ -35,23 +35,18 @@ import org.json.JSONObject;
 import static android.graphics.Color.argb;
 import static android.graphics.Color.rgb;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapIntent extends FragmentActivity {
 
     private GoogleMap mMap;
     LocationManager locationManager;
     String provider;
     final int MY_PERMISSION_REQUEST_CODE = 7171;
     double lat, lng;
-    String newString,newString2, newString3, newString4;
+    String newString, newString3, newString4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{
@@ -68,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Location myLocation = locationManager.getLastKnownLocation(provider);
         lat = myLocation.getLatitude();
         lng = myLocation.getLongitude();
-//        Toast.makeText(this, "Job has been accepted", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Job has been accepted", Toast.LENGTH_LONG).show();
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
@@ -82,31 +77,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             newString3 = (String) savedInstanceState.getSerializable("TargetLocation");
             newString4 = (String) savedInstanceState.getSerializable("UserName");
         }
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng CurrentLocation = new LatLng(lat, lng);
-        Circle circle = mMap.addCircle(new CircleOptions()
-                .center(new LatLng(lat, lng))
-                .fillColor(argb(80, 60, 140, 60))
-                .strokeColor(rgb(60, 60, 140))
-                .strokeWidth(1)
-                .radius(100));
-        new GetAddress().execute(String.format("%.4f,%.4f", lat, lng));
-        mMap.addMarker(new MarkerOptions().position(CurrentLocation).title("You"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CurrentLocation, 14.0f));
-    }
-
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    getLocation();
-                break;
-
-        }
+        String url2 = "http://maps.google.com/maps?daddr=" + newString3;
+        Intent intent2 = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url2));
+        startActivity(intent2);
+        Intent intent = new Intent(this,Dashboard.class);
+        startActivity(intent);
+        MapIntent.this.finish();
     }
 
     private void getLocation() {
@@ -122,49 +98,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (location == null)
             Log.e("ERROR", "Location is null");
     }
-
-    private class GetAddress extends AsyncTask<String, Void, String> {
-
-        ProgressDialog dialog = new ProgressDialog(MapsActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog.setMessage("Please wait...");
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                double lat = Double.parseDouble(strings[0].split(",")[0]);
-                double lng = Double.parseDouble(strings[0].split(",")[1]);
-                String response;
-                LocationDataHelper http = new LocationDataHelper();
-                String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?latlng=%.4f,%.4f&sensor=false", lat, lng);
-                response = http.GetHTTPData(url);
-                return response;
-            } catch (Exception ex) {
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-
-                newString = ((JSONArray) jsonObject.get("results")).getJSONObject(0).get("formatted_address").toString();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            if (dialog.isShowing())
-                dialog.dismiss();
-        }
-    }
-
 }
