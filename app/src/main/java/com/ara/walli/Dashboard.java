@@ -1,6 +1,11 @@
 package com.ara.walli;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -9,16 +14,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ara.walli.DatabaseDisplay;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.maps.model.Dash;
 
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String newString, newString2;
+    Context ctx = Dashboard.this;
+    AccountManager accountManager;
+
+    private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +123,7 @@ public class Dashboard extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_account) {
-            //startActivity(new Intent(Dashboard.this,LocationActivity.class));
+            syncGoogleAccount();
 
         } else if (id == R.id.nav_report) {
             startActivity(new Intent(Dashboard.this,Report.class));
@@ -130,5 +142,43 @@ public class Dashboard extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private abstractGetName getTask(Dashboard db, String email, String scope) {
+        return new GetNameToken(db, email, scope);
+    }
+    public void syncGoogleAccount() {
+        if(isNetworkAvailable() == true) {
+            String[] accountarrs = getAccountNames();
+            if(accountarrs.length > 0) {
+                getTask(Dashboard.this, accountarrs[0], SCOPE).execute();
+            } else {
+                Toast.makeText(Dashboard.this, "No Google Account Sync!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(Dashboard.this, "No Network Service!",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+    private String[] getAccountNames() {
+        accountManager = AccountManager.get(this);
+        Account[] accounts = accountManager.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
+        String[] names = new String[accounts.length];
+        for(int i = 0; i < names.length; i++) {
+            names[i] = accounts[i].name;
+        }
+        return names;
+    }
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) ctx
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()) {
+            Log.e("Network Testing", "Available");
+            return true;
+        }
+
+        Log.e("Network Testing", "Not Available");
+        return false;
     }
 }

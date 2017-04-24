@@ -98,20 +98,7 @@ public class CreateJob extends AppCompatActivity implements LocationListener {
         } else {
             getLocation();
         }
-        btnlocation = (Button) findViewById(R.id.getlocation);
-        btnlocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                    return;
-                }
-                Location myLocation = locationManager.getLastKnownLocation(provider);
-                lat = myLocation.getLatitude();
-                lng = myLocation.getLongitude();
-                new GetAddress().execute(String.format("%.4f,%.4f", lat, lng));
-            }
-        });
         btnadd = (Button) findViewById(R.id.btnadd);
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +121,6 @@ public class CreateJob extends AppCompatActivity implements LocationListener {
         String type = "Post";
         DatabaseInsert databaseInsert = new DatabaseInsert(this);
         databaseInsert.execute(type, ename, jname, jdes, jpay, jlocation);
-
 
     }
 

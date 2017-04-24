@@ -51,7 +51,7 @@ public class JobDetail extends AppCompatActivity {
         abtn = (Button) findViewById(R.id.abtn);
         abtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(JobDetail.this);
                 builder.setTitle("Confirmation");
                 builder.setMessage("Are you sure you want to accept this job?")
@@ -67,6 +67,7 @@ public class JobDetail extends AppCompatActivity {
                                 intent.putExtra("TargetLocation", newString3);
                                 intent.putExtra("UserName", newString4);
                                 startActivity(intent);
+                                OnDelete(v);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -79,6 +80,17 @@ public class JobDetail extends AppCompatActivity {
                 alert.show();
             }
         });
+
+    }
+    public void OnDelete(View view) {
+        String ename = d_name.getText().toString();
+        String jname = d_jname.getText().toString();
+        String jdes = d_description.getText().toString();
+        String jpay = d_pay.getText().toString();
+        String jlocation = d_location.getText().toString();
+        String type = "Delete";
+        DatabaseInsert databaseInsert = new DatabaseInsert(this);
+        databaseInsert.execute(type, ename, jname, jdes, jpay, jlocation);
 
     }
 
